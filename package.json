@@ -1,0 +1,24 @@
+{
+  "name": "digital-graffiti",
+  "version": "1.0.0",
+  "description": "Collaborative digital graffiti wall",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "digital",
+    "graffiti",
+    "collaborative",
+    "open",
+    "source"
+  ],
+  "author": "Sam Peach",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0"
+  }
+}
