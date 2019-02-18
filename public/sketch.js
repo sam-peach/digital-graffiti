@@ -8,24 +8,28 @@ function setup(){
 }
 
 function draw(){
-	noStroke();
+	stroke(255);
 	fill(255);
-	ellipse(mouseX, mouseY, 40, 40);
-	mouseDataSend(mouseX, mouseY);
+	// ellipse(mouseX, mouseY, 40, 40);
+	line(mouseX, mouseY, pmouseX, pmouseY);
+	mouseDataSend();
 }
 
 function newDrawing(data) {
-	noStroke;
-	fill(255, 0, 100);
-	ellipse(data.x, data.y, 40, 40);
+	stroke(255, 0, 100);
+	console.log(data);
+	line(data.x, data.y, data.px, data.py);
+	// ellipse(data.x, data.y, data.px, data.py);
 }
 
-function mouseDataSend(argX, argY) {
-	if (argX!=pmouseX || argY!=pmouseY) {
-		console.log('Sending: ' + mouseX , mouseY);
+function mouseDataSend() {
+	if (mouseX!=pmouseX || mouseY!=pmouseY) {
+		console.log('Sending: ' + mouseX , mouseY, pmouseX, pmouseY);
 		let data = {
-			x: argX,
-			y: argY
+			x: mouseX,
+			y: mouseY,
+			px: pmouseX,
+			py: pmouseY
 		}
 		socket.emit('mouse', data);
 	}
