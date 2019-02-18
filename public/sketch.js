@@ -1,7 +1,5 @@
 const socket = io.connect('http://localhost:3000');
 
-//branch test
-
 function setup(){
 <<<<<<< HEAD
 	createCanvas(1000, 700);
@@ -11,7 +9,6 @@ function setup(){
 >>>>>>> e565f2c0cfe6af105a3481530a9397f75726ad4b
 	background(100);
 	socket.on('mouse', newDrawing);	
-	console.log('Run setup');
 }
 
 function draw(){
