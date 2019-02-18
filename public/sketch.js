@@ -1,7 +1,8 @@
 const socket = io.connect('http://localhost:3000');
 
 function setup(){
-	createCanvas(500, 500);
+	const canvas = createCanvas(500, 500);
+	canvas.parent('canvas-container');
 	background(100);
 	socket.on('mouse', newDrawing);	
 }
