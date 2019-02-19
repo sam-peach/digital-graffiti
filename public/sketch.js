@@ -6,16 +6,15 @@ function setup(){
 	const canvas = createCanvas(500, 500);
 	canvas.parent('canvas-container');
 	background(0);
-	frameRate(1);
 	// socket.emit('masterImg', masterImg);
 }
 
 function draw(){
 	socket.on('masterImg', drawMasterImage); //Keps checking for new data.
 	socket.on('mouse', newDrawing); //Keps checking for new data.
-	loadPixels();
-	socket.emit('latestImg', pixels);
-	console.log(pixels.length);
+	// loadPixels();
+	// socket.emit('latestImg', pixels);
+	// console.log(pixels.length);
 }
 
 function newDrawing(data) {
