@@ -6,15 +6,31 @@ function setup(){
 	const canvas = createCanvas(500, 500);
 	canvas.parent('canvas-container');
 	background(0);
+	frameRate(1);
+	// socket.emit('masterImg', masterImg);
 }
 
 function draw(){
+	socket.on('masterImg', drawMasterImage); //Keps checking for new data.
 	socket.on('mouse', newDrawing); //Keps checking for new data.
+	loadPixels();
+	socket.emit('latestImg', pixels);
+	console.log(pixels.length);
 }
 
 function newDrawing(data) {
 	stroke(255, 0, 100);
 	line(data.x, data.y, data.px, data.py);
+}
+
+function drawMasterImage(data){
+	// loadPixels()
+	// for (var i = 0; i < pixel.length; i++) {
+	// 	for (var i = 0; i < array.length; i++) {
+	//
+	// 	}
+	// }
+	// image(data, 0, 0);
 }
 
 function mouseDragged(){
@@ -25,7 +41,7 @@ function mouseDragged(){
 
 function mouseDataSend() {
 	if (mouseX!=pmouseX || mouseY!=pmouseY) {
-		console.log('Sending: ' + mouseX , mouseY, pmouseX, pmouseY);
+		// console.log('Sending: ' + mouseX , mouseY, pmouseX, pmouseY);
 		let data = {
 			x: mouseX,
 			y: mouseY,
