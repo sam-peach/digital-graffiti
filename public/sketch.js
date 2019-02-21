@@ -1,17 +1,22 @@
 const socket = io.connect('http://localhost:3000');
 
+function preload(){
+	testImage = loadImage('assets/testImage.jpg');
+}
+
 function setup(){
 	cursor(CROSS);
 	pixelDensity(1); //Ensures that all displays show the same pixel density.
 	const canvas = createCanvas(500, 500);
 	canvas.parent('canvas-container');
-	background(0);
+	image(testImage, 0, 0);
 	// socket.emit('masterImg', masterImg);
 }
 
 function draw(){
-	socket.on('masterImg', drawMasterImage); //Keps checking for new data.
+	// socket.on('masterImg', drawMasterImage); //Keps checking for new data.
 	socket.on('mouse', newDrawing); //Keps checking for new data.
+
 	// loadPixels();
 	// socket.emit('latestImg', pixels);
 	// console.log(pixels.length);
@@ -73,6 +78,5 @@ function keyPressed(event) {
 		img.updatePixels();
 		updatePixels();
 		img.save('canvas', 'jpg');
-
 	}
 }

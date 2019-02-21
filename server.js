@@ -29,7 +29,11 @@ function newConnection(socket) {
 	}
 
 	function updateMasterImg(data) {
-
+		masterImg = [];
+		for (var i = 0; i < 1000000; i++) {
+			masterImg.push(data[i]);
+		}
+		console.log(masterImg.length);
 	}
 
 }
