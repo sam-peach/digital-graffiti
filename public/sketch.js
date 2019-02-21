@@ -1,20 +1,40 @@
 const socket = io.connect('http://localhost:3000');
 
+function preload(){
+	testImage = loadImage('assets/testImage.jpg');
+}
+
 function setup(){
 	cursor(CROSS);
 	pixelDensity(1); //Ensures that all displays show the same pixel density.
 	const canvas = createCanvas(500, 500);
 	canvas.parent('canvas-container');
-	background(0);
+	image(testImage, 0, 0);
+	// socket.emit('masterImg', masterImg);
 }
 
 function draw(){
+	// socket.on('masterImg', drawMasterImage); //Keps checking for new data.
 	socket.on('mouse', newDrawing); //Keps checking for new data.
+
+	// loadPixels();
+	// socket.emit('latestImg', pixels);
+	// console.log(pixels.length);
 }
 
 function newDrawing(data) {
 	stroke(255, 0, 100);
 	line(data.x, data.y, data.px, data.py);
+}
+
+function drawMasterImage(data){
+	// loadPixels()
+	// for (var i = 0; i < pixel.length; i++) {
+	// 	for (var i = 0; i < array.length; i++) {
+	//
+	// 	}
+	// }
+	// image(data, 0, 0);
 }
 
 function mouseDragged(){
@@ -25,7 +45,7 @@ function mouseDragged(){
 
 function mouseDataSend() {
 	if (mouseX!=pmouseX || mouseY!=pmouseY) {
-		console.log('Sending: ' + mouseX , mouseY, pmouseX, pmouseY);
+		// console.log('Sending: ' + mouseX , mouseY, pmouseX, pmouseY);
 		let data = {
 			x: mouseX,
 			y: mouseY,
@@ -58,6 +78,5 @@ function keyPressed(event) {
 		img.updatePixels();
 		updatePixels();
 		img.save('canvas', 'jpg');
-
 	}
 }

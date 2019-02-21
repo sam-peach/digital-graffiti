@@ -9,14 +9,31 @@ app.use(express.static('public'));
 
 io.sockets.on('connection', newConnection);
 
+var masterImg=[];
+
 function newConnection(socket) {
-	console.log("new connection: " + socket.id);
-
+	console.log("New connection: " + socket.id);
+	sendMasterImg(masterImg);
 	socket.on('mouse', mouseMsg);
-
+	socket.on('latestImg', updateMasterImg);
+	socket.on('disconnect', function(){
+		console.log('User disconnect:' + socket.id);
+	});
 	function mouseMsg(data){
 		socket.broadcast.emit('mouse', data);
-		console.log(data);
+		// console.log(data);
+	}
+
+	function sendMasterImg(data){
+		socket.emit('masterImg', data);
+	}
+
+	function updateMasterImg(data) {
+		masterImg = [];
+		for (var i = 0; i < 1000000; i++) {
+			masterImg.push(data[i]);
+		}
+		console.log(masterImg.length);
 	}
 
 }
