@@ -30,16 +30,12 @@ function newConnection(socket) {
 		socket.emit('masterImg', data);
 	}
 
-	function updateMasterImg(data) {
-		// masterImg = [];
-		// for (var i = 0; i < 1000000; i++) {
-		// 	masterImg.push(data[i]);
-		// }
-		// console.log(masterImg.length);
-		// fs.writeFile('temp.png', data, 'binary', function(err, data){
-    // if (err) console.log(err);
-    // console.log("Successfully Written to File.");
-		// });
+	function updateMasterImg(url) {
+		console.log("URL: ", url);
+		fs.writeFile('./public/assets/testImage.jpg', url, 'binary', function(err, data){
+   			if (err) console.log(err);
+    		console.log("Successfully Written to File.");
+		});
 	}
 
 }

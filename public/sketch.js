@@ -20,10 +20,12 @@ function draw(){
 
 //Send data every 3 seconds.
 setInterval(()=>{
-	testImage.loadPixels();
-	testImage.get();
-	socket.emit('latestImg', testImage.pixels);
-}, 3000);
+	const canvas = document.getElementById('defaultCanvas0');
+	canvas.toBlob(function(blob) {
+		url = URL.createObjectURL(blob);
+		socket.emit('latestImg', url);
+	  });
+}, 3000)
 
 function newDrawing(data) {
 	stroke(255, 0, 100);
