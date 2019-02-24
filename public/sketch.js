@@ -10,17 +10,22 @@ function setup(){
 	const canvas = createCanvas(500, 500);
 	canvas.parent('canvas-container');
 	image(testImage, 0, 0);
-	// socket.emit('masterImg', masterImg);
 }
 
 function draw(){
+	image(testImage, 0, 0);
 	// socket.on('masterImg', drawMasterImage); //Keps checking for new data.
 	socket.on('mouse', newDrawing); //Keps checking for new data.
-
-	// loadPixels();
-	// socket.emit('latestImg', pixels);
-	// console.log(pixels.length);
 }
+
+//Send data every 3 seconds.
+setInterval(()=>{
+	const canvas = document.getElementById('defaultCanvas0');
+	canvas.toBlob(function(blob) {
+		url = URL.createObjectURL(blob);
+		socket.emit('latestImg', url);
+	  });
+}, 3000)
 
 function newDrawing(data) {
 	stroke(255, 0, 100);
@@ -38,9 +43,18 @@ function drawMasterImage(data){
 }
 
 function mouseDragged(){
-	stroke(255);
-	line(mouseX, mouseY, pmouseX, pmouseY);
+	testImage.loadPixels();
+	// stroke(255);
+	fill(255);
+	noStroke();
+	// line(mouseX, mouseY, pmouseX, pmouseY);
+	// ellipse(mouseX, mouseY, 50, 50);
+	testImage.set(mouseX, mouseY, 255);
+
+	testImage.updatePixels();
+
 	mouseDataSend();
+	console.log('drawing');
 }
 
 function mouseDataSend() {
