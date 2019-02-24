@@ -9,7 +9,7 @@ app.use(express.static('public'));
 
 io.sockets.on('connection', newConnection);
 
-var masterImg=[];
+var masterImg = null;
 
 function newConnection(socket) {
 
@@ -20,22 +20,25 @@ function newConnection(socket) {
 
 	socket.on('disconnect', function(){
 		console.log('User disconnect:' + socket.id);
+
 	});
 	function mouseMsg(data){
 		socket.broadcast.emit('mouse', data);
-		// console.log(data);
 	}
 
 	function sendMasterImg(data){
 		socket.emit('masterImg', data);
 	}
 
-	function updateMasterImg(url) {
-		console.log("URL: ", url);
-		fs.writeFile('./public/assets/testImage.jpg', url, 'binary', function(err, data){
-   			if (err) console.log(err);
-    		console.log("Successfully Written to File.");
-		});
+	function updateMasterImg(data) {
+		console.log('Update being called:');
+		console.log(data);
+		if (data) {
+			fs.writeFile('./public/assets/testImage.jpg', data, 'binary', function(err, data){
+					if (err) console.log(err);
+					console.log("Successfully Written to File.");
+			});
+		}
 	}
 
 }
