@@ -23,7 +23,6 @@ function newConnection(socket) {
 	});
 	function mouseMsg(data){
 		socket.broadcast.emit('mouse', data);
-		// console.log(data);
 	}
 
 	function sendMasterImg(data){
@@ -31,11 +30,13 @@ function newConnection(socket) {
 	}
 
 	function updateMasterImg(url) {
-		console.log("URL: ", url);
-		fs.writeFile('./public/assets/testImage.jpg', url, 'binary', function(err, data){
-   			if (err) console.log(err);
-    		console.log("Successfully Written to File.");
-		});
+		console.log('Update being called:', url);
+		if (url) {
+			fs.writeFile('./public/assets/testImage.jpg', url, 'binary', function(err, data){
+					if (err) console.log(err);
+					console.log("Successfully Written to File.");
+			});
+		}
 	}
 
 }

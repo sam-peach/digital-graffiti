@@ -9,23 +9,42 @@ function setup(){
 	pixelDensity(1); //Ensures that all displays show the same pixel density.
 	const canvas = createCanvas(500, 500);
 	canvas.parent('canvas-container');
-	image(testImage, 0, 0);
+	// image(testImage, 0, 0);
 }
 
 function draw(){
 	image(testImage, 0, 0);
-	// socket.on('masterImg', drawMasterImage); //Keps checking for new data.
 	socket.on('mouse', newDrawing); //Keps checking for new data.
+	if (frameCount%90==0) {
+		console.log('Interval run');
+		const canvas = document.getElementById('defaultCanvas0');
+	 console.log("CANVAS: ", canvas);
+	 if (canvas) {
+		 canvas.toBlob(function(blob) {
+			 url = URL.createObjectURL(blob);
+			 socket.emit('latestImg', url);
+			 });
+		}
+	}
 }
 
-//Send data every 3 seconds.
-setInterval(()=>{
-	const canvas = document.getElementById('defaultCanvas0');
-	canvas.toBlob(function(blob) {
-		url = URL.createObjectURL(blob);
-		socket.emit('latestImg', url);
-	  });
-}, 3000)
+function drawImage(){}
+
+// Send data every 3 seconds.
+// setTimeout(()=>{
+// 	console.log('Timeout run');
+// 	setInterval(()=>{
+// 		console.log('Interval run');
+// 		const canvas = document.getElementById('defaultCanvas0');
+// 	 console.log("CANVAS: ", canvas);
+// 	 if (canvas) {
+// 		 canvas.toBlob(function(blob) {
+// 			 url = URL.createObjectURL(blob);
+// 			 socket.emit('latestImg', url);
+// 			 });
+// 	 }
+//  }, 3000);
+// }, 5000);
 
 function newDrawing(data) {
 	stroke(255, 0, 100);
