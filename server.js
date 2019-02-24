@@ -1,25 +1,11 @@
 const express = require('express'); //import express
 const socket = require('socket.io'); //import socket
-const mongoose = require('mongoose');
-const mongo = require('mongodb').MongoClient;
 const app = express(); // call the express library
 const server = app.listen(3000); //local host on port 3000
 const io = socket(server); //'io' is going to listen for input and output
 const fs = require('fs');
 
 app.use(express.static('public'));
-
-mongoose.Promise = global.Promise;
-
-// Connect to the database before tests run.
-//
-// mongoose.connect("mongodb+srv://digital-graffiti-fecsp.mongodb.net/test", { useNewUrlParser: true });
-// mongoose.connection.once('open', function(){
-// 	console.log('Connection made with database');
-// }).on('error', function(error) {
-// 	console.log(error)
-// });
-
 
 io.sockets.on('connection', newConnection);
 
