@@ -40,7 +40,6 @@ function newConnection(socket) {
     // if (err) console.log(err);
     // console.log("Successfully Written to File.");
 		// });
-		console.log(data);
 	}
 
 }
