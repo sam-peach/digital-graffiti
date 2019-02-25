@@ -20,6 +20,7 @@ function draw(){
 
 // Send data every 3 seconds.
 setInterval(()=>{
+	console.log('Saving image...')
 	const canvas = document.getElementById('defaultCanvas0');
 	if (canvas) {
 		canvas.toBlob(function(blob) {
@@ -27,7 +28,7 @@ setInterval(()=>{
 		socket.emit('latestImg', blob);
 		});
 	}
-}, 3000);
+}, 1000);
 
 function newDrawing(data) {
 	testImage.loadPixels();
