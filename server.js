@@ -9,39 +9,31 @@ app.use(express.static('public'));
 
 io.sockets.on('connection', newConnection);
 
-var masterImg = null;
-
 function newConnection(socket) {
 
 	console.log("New connection: " + socket.id);
-	sendMasterImg(masterImg);
 	socket.on('mouse', mouseMsg);
 	socket.on('latestImg', updateMasterImg);
 
 	socket.on('disconnect', function(){
 		console.log('User disconnect:' + socket.id);
-
 	});
+
 	function mouseMsg(data){
 		socket.broadcast.emit('mouse', data);
 	}
 
-	function sendMasterImg(data){
-		socket.emit('masterImg', data);
-	}
-
 	function updateMasterImg(data) {
-		console.log('Update being called:');
-		console.log(data);
-		if (data) {
-			fs.writeFile('./public/assets/testImage.jpg', data, 'binary', function(err, data){
-					if (err) console.log(err);
-					console.log("Successfully Written to File.");
-			});
-		}
+	  console.log('Update being called:');
+	  console.log(data);
+	  if (data) {
+	  	fs.writeFile('./public/assets/testImage.jpg', data, 'binary', function(err, data){
+	  	  if (err) console.log(err);
+	  	  console.log("Successfully Written to File.");
+	  	});
+	  }
 	}
 
 }
-
 
 console.log("Server is running");
