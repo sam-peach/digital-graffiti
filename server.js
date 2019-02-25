@@ -1,7 +1,10 @@
 const express = require('express'); //import express
 const socket = require('socket.io'); //import socket
 const app = express(); // call the express library
-const server = app.listen(3000); //local host on port 3000
+const PORT = 3000;
+const server = app.listen(PORT, ()=>{
+	console.log(`Server is now listening on port ${PORT}!`)
+})
 const io = socket(server); //'io' is going to listen for input and output
 const fs = require('fs');
 
@@ -10,11 +13,8 @@ app.use(express.static('public'));
 io.sockets.on('connection', newConnection);
 
 function newConnection(socket) {
-
-	console.log("New connection: " + socket.id);
 	socket.on('mouse', mouseMsg);
 	socket.on('latestImg', updateMasterImg);
-
 	socket.on('disconnect', function(){
 		console.log('User disconnect:' + socket.id);
 	});
@@ -24,16 +24,15 @@ function newConnection(socket) {
 	}
 
 	function updateMasterImg(data) {
-	  console.log('Update being called:');
-	  console.log(data);
-	  if (data) {
-	  	fs.writeFile('./public/assets/testImage.jpg', data, 'binary', function(err, data){
-	  	  if (err) console.log(err);
-	  	  console.log("Successfully Written to File.");
-	  	});
-	  }
+		try {
+			if (data) {
+				fs.writeFile('./public/assets/testImage.jpg', data, 'binary', function(err){
+					if(err)console.log(err)
+				})
+			}
+		}
+		catch(error) {
+			console.log("SERVER ERROR: ", error)
+		}
 	}
-
 }
-
-console.log("Server is running");
