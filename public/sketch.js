@@ -20,7 +20,6 @@ function draw(){
 
 // Send data every 3 seconds.
 setInterval(()=>{
-	console.log('Saving image...')
 	const canvas = document.getElementById('defaultCanvas0');
 	if (canvas) {
 		canvas.toBlob(function(blob) {
