@@ -26,9 +26,9 @@ function newConnection(socket) {
 	function updateMasterImg(data) {
 		try {
 			if (data) {
-				fs.writeFile('./public/assets/testImage.jpg', data, 'binary', function(err){
-					if(err)console.log(err)
-				})
+				// fs.writeFile('./public/assets/testImage.jpg', data, 'binary', function(err){
+				// 	if(err)console.log(err)
+				// })
 			}
 		}
 		catch(error) {
