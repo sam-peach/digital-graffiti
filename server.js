@@ -26,7 +26,7 @@ function newConnection(socket) {
 	function updateMasterImg(data) {
 		try {
 			if (data) {
-				fs.writeFile('./public/assets/testImage.jpg', data, 'binary', function(err){
+				fs.writeFile('./public/assets/testImage_LARGE.jpg', data, 'binary', function(err){
 					if(err)console.log(err)
 				})
 			}

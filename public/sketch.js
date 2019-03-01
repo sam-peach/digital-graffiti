@@ -7,27 +7,50 @@ const color = {
 	green: [0,255, 0],
 };
 
+const user = {
+	topLeftx: 1500 - (window.innerWidth/2),
+	topLefty: 1500 - (window.innerHeight/2),
+	topRightx: 1500 + (window.innerWidth/2),
+	topRighty: 1500 - (window.innerHeight/2),
+	bottomLeftx: 1500 - (window.innerWidth/2),
+	bottomLefty: 1500 + (window.innerHeight/2),
+	bottomRightx: 1500 + (window.innerWidth/2),
+	bottomRighty: 1500 + (window.innerHeight/2)
+
+};
+
 function preload(){
-	testImage = loadImage('assets/testImage.jpg');
+	testImage = loadImage('assets/testImage_LARGE.jpg');
 }
 
 function setup(){
 	cursor(CROSS);
 	pixelDensity(1); //Ensures that all displays show the same pixel density.
-	const canvas = createCanvas(500, 500);
+	const canvas = createCanvas(window.innerWidth, window.innerHeight);
 	canvas.parent('canvas-container');
-	image(testImage, 0, 0);
 	stroke(color.white);
+	userImage = createImage(windowWidth, windowHeight);
+	testImage.loadPixels;
+	userImage.loadPixels;
+	for (var i = user.topLeftx ; i < user.topRightx ; i++) {
+		for (var j = user.topLefty ; j < user.bottomLefty ; j++) {
+			let x = i - user.topLeftx;
+			let y = j - user.topLefty;
+			var col = testImage.get(i, j);
+			userImage.set(x, y, col);
+		}
+	}
+	userImage.updatePixels();
+	image(userImage, 0, 0);
 }
 
 socket.on('mouse', newDrawing); //Add other user's drawing data to the canvas.
 
 function draw(){
-	
+
 }
 
-
-// Send data every 3 seconds.
+// Send data every 1 seconds.
 setInterval(()=>{
 	const canvas = document.getElementById('defaultCanvas0');
 	if (canvas) {
@@ -45,14 +68,14 @@ function newDrawing(data) {
 }
 
 function mouseDragged(){
-	line(pmouseX, pmouseY, mouseX, mouseY);
-	testImage.loadPixels();
+	// line(pmouseX, pmouseY, mouseX, mouseY);
+	// testImage.loadPixels();
 	strokeWeight(5);
 	line(pmouseX, pmouseY, mouseX, mouseY);
 	// fill(255);
 	// noStroke();
 	// testImage.set(mouseX, mouseY, 255);
-	testImage.updatePixels();
+	// testImage.updatePixels();
 	mouseDataSend();
 }
 
