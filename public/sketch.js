@@ -4,7 +4,11 @@ const color = {
 	white: 255,
 	red: [255, 0, 0],
 	blue: [0, 0, 255],
-	green: [0,255, 0],
+	green: [0,255, 0]
+};
+
+let colorState = {
+	state: 'white'
 };
 
 const user = {
@@ -16,7 +20,6 @@ const user = {
 	bottomLefty: 1500 + (window.innerHeight/2),
 	bottomRightx: 1500 + (window.innerWidth/2),
 	bottomRighty: 1500 + (window.innerHeight/2)
-
 };
 
 function preload(){
@@ -26,22 +29,10 @@ function preload(){
 function setup(){
 	cursor(CROSS);
 	pixelDensity(1); //Ensures that all displays show the same pixel density.
-	const canvas = createCanvas(window.innerWidth, window.innerHeight);
+	const canvas = createCanvas(3000, 3000);
 	canvas.parent('canvas-container');
 	stroke(color.white);
-	userImage = createImage(windowWidth, windowHeight);
-	testImage.loadPixels;
-	userImage.loadPixels;
-	for (var i = user.topLeftx ; i < user.topRightx ; i++) {
-		for (var j = user.topLefty ; j < user.bottomLefty ; j++) {
-			let x = i - user.topLeftx;
-			let y = j - user.topLefty;
-			var col = testImage.get(i, j);
-			userImage.set(x, y, col);
-		}
-	}
-	userImage.updatePixels();
-	image(userImage, 0, 0);
+	image(testImage, 0, 0);
 }
 
 socket.on('mouse', newDrawing); //Add other user's drawing data to the canvas.
@@ -59,23 +50,17 @@ setInterval(()=>{
 		socket.emit('latestImg', blob);
 		});
 	}
-}, 1000);
+}, 3000);
 
 function newDrawing(data) {
-	testImage.loadPixels();
-	testImage.set(data.x, data.y, 0);
-	testImage.updatePixels();
+	stroke(color[data.altColor]);
+	strokeWeight(5);
+	line(data.px, data.py, data.x, data.y);
 }
 
 function mouseDragged(){
-	// line(pmouseX, pmouseY, mouseX, mouseY);
-	// testImage.loadPixels();
 	strokeWeight(5);
 	line(pmouseX, pmouseY, mouseX, mouseY);
-	// fill(255);
-	// noStroke();
-	// testImage.set(mouseX, mouseY, 255);
-	// testImage.updatePixels();
 	mouseDataSend();
 }
 
@@ -85,8 +70,9 @@ function mouseDataSend() {
 			x: mouseX,
 			y: mouseY,
 			px: pmouseX,
-			py: pmouseY
-		}
+			py: pmouseY,
+			altColor: colorState.state
+		};
 		socket.emit('mouse', data);
 	}
 }
@@ -94,11 +80,15 @@ function mouseDataSend() {
 function keyPressed(event){
 	if (event.key == 'r') {
 		stroke(color.red);
+		colorState.state = 'red';
 	} else if (event.key == 'g') {
 		stroke(color.green);
+		colorState.state = 'green';
 	} else if (event.key == 'b') {
 		stroke(color.blue);
+		colorState.state = 'blue';
 	} else if (event.key == 'w') {
 		stroke(color.white);
+		colorState.state = 'white';
 	}
 }
