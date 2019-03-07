@@ -11,46 +11,77 @@ let colorState = {
 	state: 'white'
 };
 
-const user = {
-	topLeftx: 1500 - (window.innerWidth/2),
-	topLefty: 1500 - (window.innerHeight/2),
-	topRightx: 1500 + (window.innerWidth/2),
-	topRighty: 1500 - (window.innerHeight/2),
-	bottomLeftx: 1500 - (window.innerWidth/2),
-	bottomLefty: 1500 + (window.innerHeight/2),
-	bottomRightx: 1500 + (window.innerWidth/2),
-	bottomRighty: 1500 + (window.innerHeight/2)
-};
+const sketch = function(p){
+	p.setup = function(){
+		p.cursor(CROSS);
+		p.pixelDensity(1); //Ensures that all displays show the same pixel density.
+		const canvas = p.createCanvas(500, 500);
+		p.background(100);
+		canvas.parent('canvas-container');
+		p.stroke(color.white);
+	}
+
+	p.draw = function(){
+ 		p.stroke(color[colorState.state]);	
+	}
+
+	p.mouseDragged = function(){
+		p.strokeWeight(5);
+		p.line(p.pmouseX, p.pmouseY, p.mouseX, p.mouseY);
+		mouseDataSend();
+	}
+
+	p.keyPressed = function(event){
+		if (event.key == 'r') {
+			p.stroke(color.red);
+			colorState.state = 'red';
+		} else if (event.key == 'g') {
+			p.stroke(color.green);
+			colorState.state = 'green';
+		} else if (event.key == 'b') {
+			p.stroke(color.blue);
+			colorState.state = 'blue';
+		} else if (event.key == 'w') {
+			p.stroke(color.white);
+			colorState.state = 'white';
+		}
+	}
+}
+
+const newCanvas = new p5(sketch);
+const newCanvas_2 = new p5(sketch);
+// const user = {
+// 	topLeftx: 1500 - (window.innerWidth/2),
+// 	topLefty: 1500 - (window.innerHeight/2),
+// 	topRightx: 1500 + (window.innerWidth/2),
+// 	topRighty: 1500 - (window.innerHeight/2),
+// 	bottomLeftx: 1500 - (window.innerWidth/2),
+// 	bottomLefty: 1500 + (window.innerHeight/2),
+// 	bottomRightx: 1500 + (window.innerWidth/2),
+// 	bottomRighty: 1500 + (window.innerHeight/2)
+// };
 
 function preload(){
-	testImage = loadImage('assets/testImage_LARGE.jpg');
+	// testImage = loadImage('assets/testImage_LARGE.jpg');
 }
 
-function setup(){
-	cursor(CROSS);
-	pixelDensity(1); //Ensures that all displays show the same pixel density.
-	const canvas = createCanvas(3000, 3000);
-	canvas.parent('canvas-container');
-	stroke(color.white);
-	image(testImage, 0, 0);
-}
+
 
 socket.on('mouse', newDrawing); //Add other user's drawing data to the canvas.
 
 function draw(){
-
 }
 
 // Send data every 1 seconds.
-setInterval(()=>{
-	const canvas = document.getElementById('defaultCanvas0');
-	if (canvas) {
-		canvas.toBlob(function(blob) {
-		url = URL.createObjectURL(blob);
-		socket.emit('latestImg', blob);
-		});
-	}
-}, 3000);
+// setInterval(()=>{
+// 	const canvas = document.getElementById('defaultCanvas0');
+// 	if (canvas) {
+// 		canvas.toBlob(function(blob) {
+// 		url = URL.createObjectURL(blob);
+// 		socket.emit('latestImg', blob);
+// 		});
+// 	}
+// }, 3000);
 
 function newDrawing(data) {
 	stroke(color[data.altColor]);
