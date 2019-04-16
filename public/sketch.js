@@ -11,7 +11,7 @@ let colorState = {
 	state: 'white'
 };
 
-const sketch = function(p){
+function sketch(p){
 	p.setup = function(){
 		p.cursor(CROSS);
 		p.pixelDensity(1); //Ensures that all displays show the same pixel density.
@@ -50,6 +50,10 @@ const sketch = function(p){
 
 const newCanvas = new p5(sketch);
 const newCanvas_2 = new p5(sketch);
+const newCanvas3 = new p5(sketch);
+const newCanvas4 = new p5(sketch);
+
+
 // const user = {
 // 	topLeftx: 1500 - (window.innerWidth/2),
 // 	topLefty: 1500 - (window.innerHeight/2),
@@ -123,3 +127,31 @@ function keyPressed(event){
 		colorState.state = 'white';
 	}
 }
+
+const canvasMaster = {
+	size: 144
+}
+
+class User{
+	constructor(windowWidth, windowHeight){
+		this.windowWidth = windowWidth;
+		this.windowHeight = windowHeight;
+	}
+
+	canvasHelper(){
+		const userArea = this.windowWidth * this.windowHeight;
+		return userArea / Math.pow(canvasMaster.size);
+
+	}
+}
+
+class Canvas {
+	constructor(size) {
+		this.width = size;
+		this.height = size; 
+	}
+}
+
+// const newUser = new User(window.innerWidth, window.outerWidth);
+
+// console.log(newUser);
